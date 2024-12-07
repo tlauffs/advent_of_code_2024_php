@@ -1,6 +1,6 @@
 <?php
 
-function parseInput($input)
+function parseInput(string $input): array
 {
     $map = [];
     $guardPosition = null;
@@ -109,7 +109,7 @@ function findObstructionPositions($map, $guardPosition, $guardDirection)
     return $possiblePositions;
 }
 
-function solvePuzzle($input)
+function solvePuzzle(string $input)
 {
     [$map, $guardPosition, $guardDirection] = parseInput($input);
     $part1Result = detectLoopOrEscape($map, $guardPosition, $guardDirection);
@@ -122,7 +122,11 @@ function solvePuzzle($input)
 
 // Read input and solve the puzzle
 $filename = 'src/day6/input';
-$input = trim(file_get_contents($filename));
+$lines = file_get_contents($filename);
+if ($lines === false) {
+    exit();
+}
+$input = trim($lines);
 $result = solvePuzzle($input);
 
 echo "Part 1: " . $result['part1'] . "\n";
