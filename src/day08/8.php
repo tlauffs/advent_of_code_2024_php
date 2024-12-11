@@ -39,8 +39,8 @@ function withinBounds(array $point, array $bounds): bool
     return false;
 }
 
-// $filename = 'src/day8/input.test';
-$filename = 'src/day8/input';
+// $filename = 'src/day08/input.test';
+$filename = 'src/day08/input';
 $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 if ($lines === false) {
     exit();

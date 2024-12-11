@@ -6,4 +6,4 @@ Link: [https://adventofcode.com/2024](https://adventofcode.com/2024)
 
 ❯ docker compose up -d
 
-    In container: ❯ php src/day1/1.php
+    In container: ❯ php src/day01/1.php

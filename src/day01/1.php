@@ -1,6 +1,6 @@
 <?php
 
-$filename = 'src/day1/input';
+$filename = 'src/day01/input';
 $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
 if ($lines === false) {

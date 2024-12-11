@@ -103,8 +103,8 @@ function part2(string $text): void
     echo $checksum . "\n";
 }
 
-// $filename = 'src/day9/input.test';
-$filename = 'src/day9/input';
+// $filename = 'src/day09/input.test';
+$filename = 'src/day09/input';
 $text = file_get_contents($filename);
 
 if (!is_string($text)) {
