@@ -121,7 +121,7 @@ function solvePuzzle(string $input)
 }
 
 // Read input and solve the puzzle
-$filename = 'src/day6/input';
+$filename = 'src/day06/input';
 $lines = file_get_contents($filename);
 if ($lines === false) {
     exit();

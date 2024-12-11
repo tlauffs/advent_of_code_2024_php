@@ -1,6 +1,6 @@
 <?php
 
-$filename = 'src/day3/input';
+$filename = 'src/day03/input';
 $text = file_get_contents($filename);
 
 $regex = "/mul\(\d{1,3},\d{1,3}\)|do\(\)|don\'t\(\)/";

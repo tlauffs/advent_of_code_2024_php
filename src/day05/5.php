@@ -1,7 +1,7 @@
 <?php
 
-// $inputFile = 'src/day5/input.test';
-$inputFile = 'src/day5/input';
+// $inputFile = 'src/day05/input.test';
+$inputFile = 'src/day05/input';
 $content = file_get_contents($inputFile);
 if ($content === false) {
     exit();

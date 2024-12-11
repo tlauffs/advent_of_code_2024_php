@@ -1,7 +1,7 @@
 <?php
 
-// $filename = 'src/day4/input.test';
-$filename = 'src/day4/input';
+// $filename = 'src/day04/input.test';
+$filename = 'src/day04/input';
 $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
 if ($lines === false) {
