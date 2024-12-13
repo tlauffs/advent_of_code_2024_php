@@ -1,94 +1,53 @@
 <?php
 
-
-function gcd(int $a, int $b): int
-{
-    while ($b != 0) {
-        $temp = $b;
-        $b = $a % $b;
-        $a = $temp;
-    }
-    return abs($a);
-}
-
 /**
-* @param array<string, array<int, int>> $machine
-*/
-function isSolutionPossible($machine): bool
+ * Solves a system of linear equations:
+ * A: [A_x, A_y], B: [B_x, B_y], Prize: [P_x, P_y]
+ * Solves the system of equations: A_x * x + B_x * y = P_x and A_y * x + B_y * y = P_y
+ *
+ * @param array<array<int>> $machine
+ */
+function solveMachine(array $machine): int
 {
-    $Ax = $machine['A'][0];
-    $Ay = $machine['A'][1];
-    $Bx = $machine['B'][0];
-    $By = $machine['B'][1];
-    $Px = $machine['Prize'][0];
-    $Py = $machine['Prize'][1];
+    list($A_x, $A_y) = $machine['A'];
+    list($B_x, $B_y) = $machine['B'];
+    list($P_x, $P_y) = $machine['Prize'];
 
-    // greatest common denomiter
-    $gcdX = gcd($Ax, $Bx);
-    $gcdY = gcd($Ay, $By);
+    // Calculate the determinant D of the coefficient matrix
+    $D = $A_x * $B_y - $A_y * $B_x;
 
-    return ($Px % $gcdX == 0) && ($Py % $gcdY == 0);
-}
-
-/**
-* @param array<array<string, array<int, int>>> $machines
-* @return array<int>
-*/
-function findMinimumTokens($machines): array
-{
-    $totalTokens = 0;
-    $prizesWon = 0;
-
-    foreach ($machines as $machine) {
-        // check if solution is possible
-        if (!isSolutionPossible($machine)) {
-            continue;
-        }
-
-        list($x_a, $y_a) = $machine['A'];
-        list($x_b, $y_b) = $machine['B'];
-        list($x_p, $y_p) = $machine['Prize'];
-
-        $minCost = PHP_INT_MAX;
-        $foundSolution = false;
-
-        $maxPresses = 100000;
-        // Brute-force over button pressed
-        for ($n_a = 0; $n_a <= $maxPresses; $n_a++) {
-            for ($n_b = 0; $n_b <= $maxPresses; $n_b++) {
-                // Check if the presses align with the prize
-                $x_reached = $n_a * $x_a + $n_b * $x_b;
-                $y_reached = $n_a * $y_a + $n_b * $y_b;
-
-                if ($x_reached == $x_p && $y_reached == $y_p) {
-                    $cost = 3 * $n_a + $n_b;
-                    if ($cost < $minCost) {
-                        $minCost = $cost;
-                        $foundSolution = true;
-                    }
-                }
-            }
-        }
-
-        if ($foundSolution) {
-            $totalTokens += $minCost;
-            $prizesWon++;
-        }
+    // no solution
+    if ($D == 0) {
+        return 0;
     }
 
-    return [
-        'prizesWon' => $prizesWon,
-        'totalTokens' => $totalTokens,
-    ];
+    // Calculate the determinant D_x for x
+    $D_x = $P_x * $B_y - $P_y * $B_x;
+
+    // Calculate the determinant D_y for y
+    $D_y = $A_x * $P_y - $A_y * $P_x;
+
+    // Calculate x and y
+    $x = $D_x / $D;
+    $y = $D_y / $D;
+
+    echo 'x' . "  " . $x . 'y' . "  " . $y . "\n";
+
+    if (is_int($x) && $x > 0 && is_int($y) && $y > 0) {
+        return 3 * $x + $y;
+    }
+    return 0;
 }
 
 $filename = 'src/day13/input.test';
-// $filename = 'src/day13/input';
+// $filename = 'src/day13/input.test2';
+$filename = 'src/day13/input';
 $lines = file_get_contents($filename);
 
 if ($lines === false) {
     exit();
 }
+
 $inputArray = explode("\n\n", $lines);
 
 $machines = [];
@@ -100,11 +59,21 @@ foreach ($inputArray as $entry) {
         $machines[] = [
             'A' => [(int)$matchA[1], (int)$matchA[2]],
             'B' => [(int)$matchB[1], (int)$matchB[2]],
+          // part 1
+            // 'Prize' => [(int)$matchPrize[1], (int)$matchPrize[2]],
             'Prize' => [(int)$matchPrize[1] + 10000000000000, (int)$matchPrize[2] + 10000000000000],
         ];
     }
 }
 
-$result = findMinimumTokens($machines);
-echo "Prizes Won: " . $result['prizesWon'] . "\n";
-echo "Total Tokens: " . $result['totalTokens'] . "\n";
+$prizesWon = 0;
+$totalTokens = 0;
+foreach ($machines as $machine) {
+    $result = solveMachine($machine);
+    if ($result !== 0) {
+        $prizesWon++;
+        $totalTokens += $result;
+    }
+}
+echo "Prizes Won: " . $prizesWon . "\n";
+echo "Total Tokens: " . $totalTokens . "\n";
