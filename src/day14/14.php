@@ -61,10 +61,13 @@ function drawStep(array &$robots, array $roomSize, int $step): void
     // @phpstan-ignore-next-line
     imagefill($image, 0, 0, $white);
 
-    $robotPositions = [];
+    $outliers = [];
     foreach ($robots as &$robot) {
         list($initialPosition, $velocity) = $robot;
-        $robotPositions[] = $initialPosition[0];
+        if (!isset($outliers[$initialPosition[0]])) {
+            $outliers[$initialPosition[0]] = 0;
+        }
+        $outliers[$initialPosition[0]] += 1;
 
         // echo $initialPosition[0] . " " . $initialPosition[1] . "\n";
         // @phpstan-ignore-next-line
@@ -81,19 +84,13 @@ function drawStep(array &$robots, array $roomSize, int $step): void
     }
 
 
-    // only draw if min 8 connected robots -> can be christmas tree
-    sort($robotPositions);
-    $consecutive = 0;
-    for ($i = 1; $i < count($robotPositions); $i++) {
-        if ($robotPositions[$i] == $robotPositions[$i - 1] + 1) {
-            $consecutive++;
-            if ($consecutive >= 4) {
-                $filename = sprintf("src/day14/images/step_%06d.png", $step);
-                imagepng($image, $filename);
-                break;
-            }
-        } else {
-            $consecutive = 0;
+    // check for outliers (many robots in a row) -> can be christmas tree
+    foreach ($outliers as $outlier) {
+        if ($outlier >= 25) {
+            $filename = sprintf("src/day14/images/step_%06d.png", $step);
+            imagepng($image, $filename);
+            break;
+
         }
     }
     imagedestroy($image);
@@ -124,7 +121,7 @@ $safetySum = calculateEndPositions($robots, $roomSize);
 echo $safetySum . "\n";
 
 
-//part 2 (draw steps)
+// part 2 (draw steps)
 $stepsToDraw = 10000;
 echo "generating images...\n";
 for ($i = 0; $i < $stepsToDraw; $i++) {
