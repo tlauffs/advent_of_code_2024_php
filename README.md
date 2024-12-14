@@ -2,7 +2,7 @@
 
 Link: [https://adventofcode.com/2024](https://adventofcode.com/2024)
 
-❯ docker build -t adventofcode .
+❯ docker-compose build
 
 ❯ docker compose up -d
 
