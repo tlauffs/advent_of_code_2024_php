@@ -1,5 +1,5 @@
 parameters:
     level: 9 
-ignoreErrors:
-    - '#missingType\.iterableValue#'
+    ignoreErrors:
+        - '#Function .* has parameter \$.+ with no value type specified in iterable type array#'
 
