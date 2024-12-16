@@ -42,8 +42,8 @@ function floodFill(array $maze, int $row, int $col, array $dir, ?array $prevDir,
 
     // if already calulated
     if (isset($memo[$row][$col])) {
-        // becuase we dont know the future best path and rotating cost up to 2000 we have to add leway
-        if ($memo[$row][$col] + 2000 < $score) {
+        // becuase we dont know the future best path and rotating cost up to 1000 we have to add leway
+        if ($memo[$row][$col] + 1000 < $score) {
             return PHP_INT_MAX;
         }
 
@@ -62,8 +62,8 @@ function floodFill(array $maze, int $row, int $col, array $dir, ?array $prevDir,
 }
 
 
-$filename = 'src/day16/input.test';
-// filename = 'src/day16/input';
+// $filename = 'src/day16/input.test';
+$filename = 'src/day16/input';
 // $filename = 'src/day16/input.test2';
 
 $input = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
