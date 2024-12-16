@@ -1,6 +1,5 @@
 <?php
 
-ini_set('memory_limit', '512M');
 $directions = [[1,0],[-1,0],[0,1],[0,-1]];
 
 function floodFill(array $maze, int $row, int $col, array $dir, ?array $prevDir, int $score, array $path, int &$minscore, array &$memo, array &$allPaths): int
