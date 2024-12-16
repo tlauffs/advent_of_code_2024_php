@@ -51,7 +51,6 @@ function robotStep(string $movement, array &$robotPos, array &$boxes, array &$wa
 
     // Check if wall
     if (in_array($nextCol, $walls[$nextRow] ?? [])) {
-        $currentBoxRow = $nextRow;
         return;
     }
 
