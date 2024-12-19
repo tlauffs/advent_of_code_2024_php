@@ -1,6 +1,6 @@
 <?php
 
-function countDesigns($design, $towels, &$memo)
+function countDesigns(string $design, array $towels, array &$memo): int
 {
     if ($design === '') {
         return 1;
