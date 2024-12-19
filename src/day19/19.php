@@ -49,10 +49,17 @@ $possibleDesigns = 0;
 $possibleDesignCombinations = 0;
 
 foreach ($towelDesigns as $design) {
-    if (preg_match($pattern, $design)) {
+    // pure regex solution for part 1: works but is slow
+    //
+    // if (preg_match($pattern, $design)) {
+    //     $possibleDesigns++;
+    // }
+    $result = countDesigns($design, $towels, $memo);
+    if ($result > 0) {
         $possibleDesigns++;
     }
     $possibleDesignCombinations += countDesigns($design, $towels, $memo);
+
 }
 
 echo "Total possible designs (part1): {$possibleDesigns}\n";
