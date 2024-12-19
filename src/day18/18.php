@@ -2,36 +2,36 @@
 
 function bfs(array $start, array $end, array &$visited): int
 {
-	$rows = $end[0];
-	$cols = $end[1];
-	$directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+    $rows = $end[0];
+    $cols = $end[1];
+    $directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
 
-	// [y, x, steps]
-	$queue = [[$start[0], $start[1], 0]];
-	$visited[$start[0]][$start[1]] = true;
+    // [y, x, steps]
+    $queue = [[$start[0], $start[1], 0]];
+    $visited[$start[0]][$start[1]] = true;
 
-	while (!empty($queue)) {
-		[$y, $x, $steps] = array_shift($queue);
+    while (!empty($queue)) {
+        [$y, $x, $steps] = array_shift($queue);
 
-		if ($y == $end[0] && $x == $end[1]) {
-			return $steps;
-		}
+        if ($y == $end[0] && $x == $end[1]) {
+            return $steps;
+        }
 
-		foreach ($directions as [$dy, $dx]) {
-			$ny = $y + $dy;
-			$nx = $x + $dx;
+        foreach ($directions as [$dy, $dx]) {
+            $ny = $y + $dy;
+            $nx = $x + $dx;
 
-			if (
-				$ny >= 0 && $ny <= $rows && $nx >= 0 && $nx <= $cols
-				&& empty($visited[$ny][$nx])
-			) {
-				$queue[] = [$ny, $nx, $steps + 1];
-				$visited[$ny][$nx] = true;
-			}
-		}
-	}
+            if (
+                $ny >= 0 && $ny <= $rows && $nx >= 0 && $nx <= $cols
+                && empty($visited[$ny][$nx])
+            ) {
+                $queue[] = [$ny, $nx, $steps + 1];
+                $visited[$ny][$nx] = true;
+            }
+        }
+    }
 
-	return -1;
+    return -1;
 }
 
 memory_reset_peak_usage();
@@ -43,7 +43,7 @@ $filename = 'src/day18/input';
 $input = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
 if ($input === false) {
-	exit();
+    exit();
 }
 
 $visited = [];
@@ -54,10 +54,10 @@ $pattern = '/(\d+),(\d+)/';
 
 $numberOfSteps = 1024;
 for ($i = 0; $i  < $numberOfSteps; $i++) {
-	$corruptedByte = $input[$i];
-	if (preg_match($pattern, $corruptedByte, $matches)) {
-		$visited[$matches[2]][$matches[1]] = true;
-	}
+    $corruptedByte = $input[$i];
+    if (preg_match($pattern, $corruptedByte, $matches)) {
+        $visited[$matches[2]][$matches[1]] = true;
+    }
 }
 
 $part1 = bfs($start, $end, $visited);
@@ -67,21 +67,21 @@ $low = 0;
 $high = count($input) - 1;
 
 while ($low < $high) {
-	$mid = intdiv($low + $high, 2);
+    $mid = intdiv($low + $high, 2);
 
-	$visited = [];
-	for ($i = 0; $i < $mid; $i++) {
-		$corruptedByte = $input[$i];
-		if (preg_match($pattern, $corruptedByte, $matches)) {
-			$visited[$matches[2]][$matches[1]] = true;
-		}
-	}
+    $visited = [];
+    for ($i = 0; $i < $mid; $i++) {
+        $corruptedByte = $input[$i];
+        if (preg_match($pattern, $corruptedByte, $matches)) {
+            $visited[$matches[2]][$matches[1]] = true;
+        }
+    }
 
-	if (bfs($start, $end, $visited) === -1) {
-		$high = $mid;
-	} else {
-		$low = $mid + 1;
-	}
+    if (bfs($start, $end, $visited) === -1) {
+        $high = $mid;
+    } else {
+        $low = $mid + 1;
+    }
 }
 $low--;
 
