@@ -1,6 +1,6 @@
 <?php
 
-function countDesigns($design, $towels, &$memo)
+function countDesigns(string $design, array $towels, array &$memo): int
 {
     if ($design === '') {
         return 1;
@@ -29,7 +29,7 @@ function countDesigns($design, $towels, &$memo)
 memory_reset_peak_usage();
 $start_time = microtime(true);
 
-// $filename = 'src/day19/input.test'; // Uncomment for testing
+// $filename = 'src/day19/input.test';
 $filename = 'src/day19/input';
 $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
